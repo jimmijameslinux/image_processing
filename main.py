@@ -5,14 +5,18 @@ from tkinter import filedialog, messagebox
 from PIL import Image, ImageTk
 import subprocess
 import sys
+import os
 
-# Check if the required modules are installed and install them if not
+# Check if the 'requirements.txt' file exists
 def install_requirements():
-    try:
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
-    except subprocess.CalledProcessError as e:
-        print(f"Error occurred while installing dependencies: {e}")
-        sys.exit(1)
+    if os.path.exists('requirements.txt'):
+        try:
+            subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
+        except subprocess.CalledProcessError as e:
+            print(f"Error occurred while installing dependencies: {e}")
+            sys.exit(1)
+    else:
+        print("'requirements.txt' not found. Skipping installation.")
 
 # Call the function to install dependencies
 install_requirements()
