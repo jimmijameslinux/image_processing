@@ -3,22 +3,43 @@ import numpy as np
 import customtkinter as ctk
 from tkinter import filedialog, messagebox
 from PIL import Image, ImageTk
+import os
 import subprocess
 import sys
-import os
+import pkg_resources
 
-# Check if the 'requirements.txt' file exists
+# Function to check if the required libraries are installed
+def are_requirements_met():
+    try:
+        with open('requirements.txt', 'r') as req_file:
+            required_libraries = req_file.readlines()
+            for lib in required_libraries:
+                package = lib.strip()
+                try:
+                    # Check if the package is installed
+                    pkg_resources.get_distribution(package)
+                except pkg_resources.DistributionNotFound:
+                    print(f"'{package}' is not installed.")
+                    return False
+        return True
+    except FileNotFoundError:
+        print("'requirements.txt' not found. Skipping installation.")
+        return True  # No file to check, so we'll skip the installation step
+
+# Function to install missing libraries
 def install_requirements():
     if os.path.exists('requirements.txt'):
-        try:
-            subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
-        except subprocess.CalledProcessError as e:
-            print(f"Error occurred while installing dependencies: {e}")
-            sys.exit(1)
-    else:
-        print("'requirements.txt' not found. Skipping installation.")
+        # If libraries are not met, install from the requirements.txt
+        if not are_requirements_met():
+            try:
+                subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
+            except subprocess.CalledProcessError as e:
+                print(f"Error occurred while installing dependencies: {e}")
+                sys.exit(1)
+        else:
+            print("All required libraries are already installed.")
 
-# Call the function to install dependencies
+# Install the requirements if needed
 install_requirements()
 
 
