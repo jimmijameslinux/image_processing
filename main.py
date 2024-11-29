@@ -3,6 +3,21 @@ import numpy as np
 import customtkinter as ctk
 from tkinter import filedialog, messagebox
 from PIL import Image, ImageTk
+import subprocess
+import sys
+
+# Check if the required modules are installed and install them if not
+def install_requirements():
+    try:
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
+    except subprocess.CalledProcessError as e:
+        print(f"Error occurred while installing dependencies: {e}")
+        sys.exit(1)
+
+# Call the function to install dependencies
+install_requirements()
+
+
 
 # Function to apply edge detection
 def apply_edge_detection(image, method, order):
