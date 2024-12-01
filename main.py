@@ -1,8 +1,3 @@
-import cv2
-import numpy as np
-import customtkinter as ctk
-from tkinter import filedialog, messagebox
-from PIL import Image, ImageTk
 import os
 import subprocess
 import sys
@@ -43,6 +38,11 @@ def install_requirements():
 install_requirements()
 
 
+import cv2
+import numpy as np
+import customtkinter as ctk
+from tkinter import filedialog, messagebox
+from PIL import Image, ImageTk
 
 # Function to apply edge detection
 def apply_edge_detection(image, method, order):
